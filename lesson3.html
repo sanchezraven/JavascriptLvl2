@@ -1,0 +1,47 @@
+﻿
+  <script>
+function makeGETRequest(url) {
+	let xhr;
+
+  if (window.XMLHttpRequest) {
+    xhr = new XMLHttpRequest();
+  } else if (window.ActiveXObject) { 
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+	return new Promise((resolve, reject) => {
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4) {
+				resolve(xhr.responseText);
+			}
+		}
+	})
+}
+
+makeGETRequest(url).then()
+
+// function makeGETRequest(url, callback) {
+//   var xhr;
+
+//   if (window.XMLHttpRequest) {
+//     xhr = new XMLHttpRequest();
+//   } else if (window.ActiveXObject) { 
+//     xhr = new ActiveXObject("Microsoft.XMLHTTP");
+//   }
+
+//   xhr.onreadystatechange = function () {
+//     if (xhr.readyState === 4) {
+//       callback(xhr.responseText);
+//     }
+//   }
+
+//   xhr.open('GET', url, true);
+//   xhr.send();
+// }
+
+
+
+
+
+
+  </script>
+
