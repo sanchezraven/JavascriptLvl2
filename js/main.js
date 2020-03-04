@@ -1,37 +1,15 @@
-//заглушки (имитация базы данных)
+﻿//заглушки (имитация базы данных)
 const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
-//const items = ['Notebook', 'Display', 'Keyboard', 'Mouse', 'Phones', 'Router', 'USB-camera', 'Gamepad'];
-//const prices = [1000, 200, 20, 10, 25, 30, 18, 24];
-//const ids = [1, 2, 3, 4, 5, 6, 7, 8];
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json'
 
-
-
-//создание массива объектов - имитация загрузки данных с сервера
-//function fetchData () {
-//    let arr = [];
-//    for (let i = 0; i < items.length; i++) {
-//        arr.push ({
-//           title: items[i],
-//            price: prices[i],
-//            img: image
-//        });
-//    }
-//    return arr
-//};
-
-
-
-//function makeGETRequest(url, cb) {   
+//function makeGETRequest(url, cb) {
 //    let xhr;
-//  
 //    if (window.XMLHttpRequest) {
 //      xhr = new XMLHttpRequest();
 //    } else if (window.ActiveXObject) { 
 //      xhr = new ActiveXObject("Microsoft.XMLHTTP");
 //    }
-//  
 //    xhr.onreadystatechange = function () {
 //      if (xhr.readyState === 4) {
 //        cb(xhr.responseText);
@@ -41,36 +19,28 @@ const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-sto
 //    xhr.open('GET', url, true);
 //    xhr.send();
 //  }
-function request (url) {
-    let xhr;
-    
-
-    if (window.XMLHttpRequest) {
-      xhr = new XMLHttpRequest();
-    } else if (window.ActiveXObject) { 
-      xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    
-    //xhr.onreadystatechange = function () {
-    //         if (xhr.readyState === 4) {
-    //             return xhr.responseText;
-    //         }
-    //       }
-                 
-    xhr.open('GET', url, true);
-    xhr.send();
-    return  xhr.responseText;
-}
 
 function makeGETRequest(url){
     return new Promise((res,rej) => {
-        let data = request (`${API_URL}`)
-        console.log(data)
-        if (data){
-            res()
-        } else{
-            rej(error)
+        let xhr;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
         }
+        xhr.open('GET', url, true);
+        xhr.send();
+        
+        xhr.onload = function () {
+            if (this.status == 200) {
+                res(this.responseText);
+            } 
+            else {
+                let error = new Error(this.statusText);
+                rej (error);
+            }
+        }
+    
     })
 }
 
@@ -84,22 +54,13 @@ class ProductsList{
         this.fetchProducts ()
         this.render ()
     }
-
-    //fetchProducts () {
-    //    this.products = fetchData ()
-    //}
-
     fetchProducts (cb) {
-        makeGETRequest(`${API_URL}`)
-            .then((products) => {this.products = JSON.parse(products);})
-            .catch(e =>{console.log('error')})
-
-        //makeGETRequest(`${API_URL}`, (products) => {
-        //    this.products = JSON.parse(products);
-        //    cb();
-        //})
+        makeGETRequest(API_URL)
+            .then(products => {this.products = JSON.parse(products)
+            cb()})
+            .catch(e =>{console.log(e)})
     }
-    
+
     render() {
         const block = document.querySelector('.products');
         this.products.forEach(product => {
@@ -107,8 +68,13 @@ class ProductsList{
             block.insertAdjacentHTML('beforeend', prod.render ())
         })
     }
-
 }
+
+const catalog = new ProductsList ();
+catalog.fetchProducts(()=>{
+    catalog.render();
+})
+
 
 class Product {
     constructor(product) {
@@ -123,26 +89,17 @@ class Product {
                         <div class="desc">
                             <h3>${this.product_name}</h3>
                             <p>${this.price} $</p>
-                            <button class="buy-btn" 
+                            <button class="buy-btn"
                             data-name="${this.title}"
                             data-image="${this.img}"
                             data-price="${this.price}">Купить</button>
                         </div>
                     </div>`
     }
-
 }
 
-
-
-
-
-const catalog = new ProductsList ();
-catalog.fetchProducts(()=>{
-    catalog.render();
-})
-
 //создание товара
+
 /* function createProduct (i) {
     return {
         id: ids[i],
