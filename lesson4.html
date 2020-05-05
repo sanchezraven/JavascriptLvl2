@@ -1,5 +1,5 @@
 <script>
 	const str = " sdfdsf, 'xdgdg', Hello lol didn't - This is string aren't asd";
-	const regexp = /(^|\s|\')\'([^']+?)\'/g;
-	console.log(str.replace(regexp, '$1\"$2\"')); 
+	const regexp = /\B'|'\B/g;
+	console.log(str.replace(regexp, '"'));
 </script>
