@@ -24,11 +24,10 @@ let app = new Vue ({
 		addProduct (product) {
 			console.log (product.id_product)
 		},
-		show (){
-			this.isVisibleCart =!this.isVisibleCart;
-		},
-		filtered(){
-			
+
+		filter(str){
+			let reg = new RegExp(this.userSearch, 'i')
+			this.filtered = this.products.filter(el => reg.test(el.product_name))
 		}
 	},
 	mounted () {

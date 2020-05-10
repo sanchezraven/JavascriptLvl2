@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Интернет-магазин</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div id="app">
         <header>
             <div class="logo">E-shop</div>
             <div class="cart">
-                <form action="#" class="search-form">
-                    <input type="text" class="search-field">
-                    <button class="btn-search" @click = "filtered" type="submit">
+                <form action="#" class="search-form" @submit.prevent = "filter(userSearch)">
+                    <input type="text" class="search-field" v-model="userSearch">
+                    <button class="btn-search" type="submit">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
-                <button class="btn-cart" type="button" @click = "show">Корзина</button>
-                <div class="cart-block invisible" v-show="isVisibleCart"></div>
+                <button class="btn-cart" type="button" @click = "isVisibleCart = !isVisibleCart">Корзина</button>
+                <div class="cart-block" v-show="isVisibleCart"></div>
             </div>
         </header>
         <main>
@@ -38,6 +36,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
-    <script src="js/main.js"></script>
 </body>
 </html>
