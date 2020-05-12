@@ -2,7 +2,7 @@ const cartItem = {
     props: ['img', 'item'],
     template: `<div class="cart-item">
                     <div class="product-bio">
-                        <img src="img" alt="Some img">
+                        <img :src="img" alt="Some img">
                         <div class="product-desc">
                             <p class="product-title"> {{ item.product_name }} </p>
                             <p class="product-quantity">К-во: {{ item.quantity }} </p>
