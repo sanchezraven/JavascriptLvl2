@@ -43,9 +43,7 @@ const catalog = {
     template: `
             <div>
                 <div class="products">
-                    
-                    </div>
-                    <catalog-item
+                <catalog-item
                     v-for="product of filtered"
                     :key="product.id_product"
                     :img="imgCatalog"
